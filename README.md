@@ -1,6 +1,12 @@
 ## fontsize
 
-minify font and inline in stylesheet
+A Postcss plugin that minify font and inline in stylesheet
+
+## Todo
+
+- [x] ttf supports
+- [ ] woff supports
+- [ ] webpack loader
 
 ## Getting Started
 
@@ -15,13 +21,48 @@ import fontsize from 'fontsize'
 const content = fs.readFileSync('test/fixtures/style.css', 'utf8')
 const opts = {
   resolveUrl: url => path.join(__dirname, 'fixtures', url),
-  text: 'hellow world'
+  text: 'hello world'
 }
 
 postcss().use(postcssFontsize(opts)).process(content)
 // OR
 postcssFontsize.process(content, opts)
 ```
+
+```css
+/* raw stylesheet */
+.ttf {
+  font-family: "SentyBrush";
+  font-size: 20px;
+}
+@font-face {
+  font-family: "SentyBrush";
+  src: url('./font/SentyBrush.ttf');
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* transformed */
+.ttf {
+  font-family: "SentyBrush";
+  font-size: 20px;
+}
+@font-face {
+  font-family: "SentyBrush";
+  src: url("data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMkHQFusAAACsAAA...");
+  font-style: normal;
+  font-weight: normal;
+}
+```
+
+```html
+<!-- html -->
+<h2>hello world</h2>
+<h2 class="ttf">hello world</h2>
+<h2 class="ttf">miss</h2>
+```
+
+![example](docs/example.png)
 
 ## Test
 
