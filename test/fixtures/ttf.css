@@ -1,0 +1,10 @@
+.ttf {
+  font-family: "SentyBrush";
+  font-size: 20px;
+}
+@font-face {
+  font-family: "SentyBrush";
+  src: url('./font/SentyBrush.ttf');
+  font-style: normal;
+  font-weight: normal;
+}

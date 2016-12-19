@@ -1,3 +1,4 @@
+import path from 'path'
 import Fontmin from 'fontmin'
 import proof from 'proof'
 
@@ -20,18 +21,22 @@ async function fontsize(opts = {}, root) {
 
 function process(text, item) {
   const { realpath, decl } = item
+  const extname = path.extname(realpath).slice(1)
+
   return new Promise((resolve, reject) => {
-    new Fontmin()
-      .src(realpath)
-      .use(Fontmin.otf2ttf())
-      .use(Fontmin.glyph({
-        text,
-        hinting: false
-      }))
+    const fontmin = new Fontmin().src(realpath)
+
+    fontmin.use(Fontmin.glyph({
+      text,
+      hinting: false
+    }))
+
+    fontmin
       .run((error, files) => {
         if (error) {
           reject(error)
         }
+
         decl.value = decl.value.replace(
           /url\(["']?([\w\W]+?)["']?\)/,
           'url("data:application/x-font-ttf;charset=utf-8;base64,' + files[0].contents.toString('base64') + '")'

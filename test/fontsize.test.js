@@ -10,13 +10,12 @@ import './helper'
 describe('fontsize', function () {
   this.timeout(2e4)
 
-  const content = fs.readFileSync('test/fixtures/style.css', 'utf8')
-
   it('should work', () => {
+    const content = fs.readFileSync('test/fixtures/ttf.css', 'utf8')
     const root = postcss.parse(content)
     const opts = {
       resolveUrl: url => path.join(__dirname, 'fixtures', url),
-      text: 'hellow world'
+      text: 'hello world'
     }
 
     return fontsize(opts)(root, root.result).should.be.fulfilled
