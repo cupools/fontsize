@@ -4,7 +4,7 @@
   "description": "minify font and inline in stylesheet",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test node node_modules/babel-cli/bin/babel-node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha --dir test/coverage --root src --include-all-sources true -- --compilers js:babel-core/register -i test/*.test.js -w",
+    "test": "cross-env NODE_ENV=test node node_modules/babel-cli/bin/babel-node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha --dir test/coverage --root src --include-all-sources true -- --compilers js:babel-core/register -i test/index.test.js -w",
     "coverage": "cat test/coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
     "dev": "rm -rf lib && node node_modules/babel-cli/bin/babel src -d lib -D -w"
   },
@@ -50,6 +50,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-runtime": "^6.20.0",
     "fontmin": "^0.9.6",
+    "postcss": "^5.2.6",
     "proof": "github:cupools/proof"
   }
 }

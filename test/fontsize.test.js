@@ -3,19 +3,22 @@
 import fs from 'fs'
 import path from 'path'
 import postcss from 'postcss'
-import postcssFontsize from '../src/index'
+
+import fontsize from '../src/fontsize'
 import './helper'
 
-describe('index', function () {
+describe('fontsize', function () {
   this.timeout(2e4)
 
   const content = fs.readFileSync('test/fixtures/style.css', 'utf8')
 
-  it('should work as postcss plugin', () => {
+  it('should work', () => {
+    const root = postcss.parse(content)
     const opts = {
       resolveUrl: url => path.join(__dirname, 'fixtures', url),
       text: 'hellow world'
     }
-    return postcss().use(postcssFontsize(opts)).process(content).should.be.fulfilled
+
+    return fontsize(opts)(root, root.result).should.be.fulfilled
   })
 })
