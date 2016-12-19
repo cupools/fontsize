@@ -1,24 +1,28 @@
 /* eslint-env mocha */
 
-const fs = require('fs')
-const path = require('path')
-const Chai = require('chai')
-const del = require('del')
-const postcss = require('postcss')
+import fs from 'fs'
+import path from 'path'
+import Chai from 'chai'
+import del from 'del'
+import postcss from 'postcss'
+import chaiAsPromise from 'chai-as-promised'
 
-const fontsize = require('../index')
+import fontsize from '../index'
 
 Chai.should()
+Chai.use(chaiAsPromise)
 
 describe('fontsize', function () {
+  this.timeout(1e4)
+
   const content = fs.readFileSync('test/fixtures/style.css', 'utf8')
 
-  it('should work', (done) => {
+  it('should work', () => {
     const root = postcss.parse(content)
     const opts = {
-      resolveUrl: url => path.join(__dirname, 'fixtures', url)
+      resolveUrl: url => path.join(__dirname, 'fixtures', url),
+      text: 'hellow world'
     }
-    fontsize(opts)(root, root.result)
-    done()
+    return fontsize(opts)(root, root.result).should.be.fulfilled
   })
 })
