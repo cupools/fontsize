@@ -4,8 +4,10 @@ A Postcss plugin that minify font and inline in stylesheet
 
 ## Todo
 
+- [x] base64
 - [x] ttf supports
 - [ ] woff supports
+- [ ] friendly configuration
 - [ ] webpack loader
 
 ## Getting Started
@@ -24,9 +26,9 @@ const opts = {
   text: 'hello world'
 }
 
-postcss().use(postcssFontsize(opts)).process(content)
+postcss().use(fontsize(opts)).process(content)
 // OR
-postcssFontsize.process(content, opts)
+fontsize.process(content, opts)
 ```
 
 ```css
