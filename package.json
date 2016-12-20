@@ -47,7 +47,6 @@
   },
   "homepage": "https://github.com/cupools/fontsize#readme",
   "dependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-runtime": "^6.20.0",
     "fontmin": "^0.9.6",
     "postcss": "^5.2.6",

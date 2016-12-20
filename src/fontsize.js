@@ -1,18 +1,20 @@
+import fs from 'fs'
 import path from 'path'
 import Fontmin from 'fontmin'
 import proof from 'proof'
+import postcss from 'postcss'
 
 import lint from './lint'
 
 async function fontsize(opts = {}, root) {
-  const { resolveUrl, text } = proof(opts, lint)
+  const { resolveUrl, inject, text } = proof(opts, lint)
 
   let targets = []
   root.walkAtRules(/font-face/, walkAtRule.bind(null, targets))
 
   const files = targets
     .map(item => ({ ...item, realpath: resolveUrl(item.url) }))
-    .filter(item => !!item)
+    .filter(item => fs.existsSync(item.realpath))
 
   await Promise.all(files.map(process.bind(null, text)))
 
@@ -44,6 +46,23 @@ function process(text, item) {
         resolve(item)
       })
   })
+}
+
+function appendAtRule(root, inject) {
+  const realpath = path.resolve(inject)
+  const fontname = path.basename(inject).split('.')[0]
+  const body = postcss.parse(`
+    @font-face {
+      src: url('${inject}') format('truetype');
+      font-family: '${fontname}';
+      font-style: normal;
+      font-weight: normal;
+    }
+  `)
+  const atRule = body.first
+  const decl = atRule.nodes[0]
+
+  root.append(atRule)
 }
 
 function walkAtRule(targets, atRule) {

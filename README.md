@@ -8,7 +8,8 @@ A Postcss plugin that minify font and inline in stylesheet
 - [x] ttf supports
 - [ ] woff supports
 - [ ] friendly configuration
-- [ ] webpack loader
+- [ ] inject font-face
+- [ ] <s>webpack loader</s>
 
 ## Getting Started
 
