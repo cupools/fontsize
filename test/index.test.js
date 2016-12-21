@@ -9,6 +9,12 @@ import './helper'
 describe('index', function () {
   this.timeout(2e4)
 
+  before(() => {
+    if (!fs.existsSync('test/tmp')) {
+      fs.mkdir('test/tmp')
+    }
+  })
+
   const content = fs.readFileSync('test/fixtures/ttf.css', 'utf8')
   const opts = {
     resolveUrl: url => path.join(__dirname, 'fixtures', url),
