@@ -8,7 +8,7 @@ import fontsize from '../src/fontsize'
 import './helper'
 
 describe('fontsize', function () {
-  this.timeout(2e4)
+  this.timeout(1e4)
 
   it('should work', () => {
     const content = fs.readFileSync('test/fixtures/ttf.css', 'utf8')

@@ -46,8 +46,9 @@ function process(text, item) {
 
         decl.value = decl.value.replace(
           /url\(["']?([\w\W]+?)["']?\)/,
-          'url("data:application/x-font-ttf;charset=utf-8;base64,' + files[0].contents.toString('base64') + '")'
+          'url(\'data:application/x-font-ttf;charset=utf-8;base64,' + files[0].contents.toString('base64') + '\')'
         )
+
         resolve(item)
       })
   })
@@ -63,10 +64,10 @@ function appendAtRule(root, inject) {
       font-weight: normal;
     }
   `)
-  const atRule = body.first
-  const decl = atRule.nodes[0]
 
-  root.append(atRule)
+  root.append(body.first)
+  const decl = root.last.nodes[0]
+
   return {
     url: inject,
     decl
