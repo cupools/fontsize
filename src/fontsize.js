@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 import Fontmin from 'fontmin'
 import proof from 'proof'
 
@@ -8,14 +9,15 @@ import lint from './lint'
 async function fontsize(opts = {}, root) {
   const { resolveUrl, text } = proof(opts, lint)
 
-  let targets = []
-  root.walkAtRules(/font-face/, walkAtRule.bind(null, targets))
+  let storage = []
+  root.walkAtRules(/font-face/, walkAtRule.bind(null, storage))
 
-  const files = targets
+  const targets = storage
     .map(item => ({ ...item, realpath: resolveUrl(item.url) }))
     .filter(item => fs.existsSync(item.realpath))
+    .map(item => ({ ...item, name: getFilename(item.realpath) }))
 
-  await Promise.all(files.map(process.bind(null, text)))
+  await Promise.all(targets.map(process.bind(null, text)))
 
   return root
 }
@@ -67,6 +69,10 @@ function walkAtRule(targets, atRule) {
       decl
     })
   })
+}
+
+function getFilename(realpath) {
+  return path.basename(realpath).split('.')[0]
 }
 
 export default options => fontsize.bind(null, options)
