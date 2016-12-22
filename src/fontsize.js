@@ -4,6 +4,7 @@ import Fontmin from 'fontmin'
 import proof from 'proof'
 import postcss from 'postcss'
 
+import cache from './cache'
 import lint from './lint'
 
 async function fontsize(opts = {}, root) {
@@ -28,7 +29,11 @@ async function fontsize(opts = {}, root) {
 
 function process(text, item) {
   const { realpath, decl } = item
-  const extname = path.extname(realpath).slice(1)
+  const fromCache = cache.get(realpath, text)
+
+  if (fromCache) {
+    return Promise.resolve(fromCache)
+  }
 
   return new Promise((resolve, reject) => {
     const fontmin = new Fontmin().src(realpath)
@@ -44,11 +49,13 @@ function process(text, item) {
           reject(error)
         }
 
+        const result = files[0].contents.toString('base64')
         decl.value = decl.value.replace(
           /url\(["']?([\w\W]+?)["']?\)/,
-          'url(\'data:application/x-font-ttf;charset=utf-8;base64,' + files[0].contents.toString('base64') + '\')'
+          'url(\'data:application/x-font-ttf;charset=utf-8;base64,' + result + '\')'
         )
 
+        cache.set(realpath, text, result)
         resolve(item)
       })
   })
