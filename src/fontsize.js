@@ -1,22 +1,15 @@
 import fs from 'fs'
-import path from 'path'
 import Fontmin from 'fontmin'
 import proof from 'proof'
-import postcss from 'postcss'
 
 import cache from './cache'
 import lint from './lint'
 
 async function fontsize(opts = {}, root) {
-  const { resolveUrl, inject, text } = proof(opts, lint)
+  const { resolveUrl, text } = proof(opts, lint)
 
   let targets = []
-
-  if (inject) {
-    targets.push(appendAtRule(root, inject))
-  } else {
-    root.walkAtRules(/font-face/, walkAtRule.bind(null, targets))
-  }
+  root.walkAtRules(/font-face/, walkAtRule.bind(null, targets))
 
   const files = targets
     .map(item => ({ ...item, realpath: resolveUrl(item.url) }))
@@ -59,26 +52,6 @@ function process(text, item) {
         resolve(item)
       })
   })
-}
-
-function appendAtRule(root, inject) {
-  const fontname = path.basename(inject).split('.')[0]
-  const body = postcss.parse(`
-    @font-face {
-      src: url('${inject}') format('truetype');
-      font-family: '${fontname}';
-      font-style: normal;
-      font-weight: normal;
-    }
-  `)
-
-  root.append(body.first)
-  const decl = root.last.nodes[0]
-
-  return {
-    url: inject,
-    decl
-  }
 }
 
 function walkAtRule(targets, atRule) {
