@@ -4,7 +4,7 @@
   "description": "minify font and inline in stylesheet",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test node node_modules/babel-cli/bin/babel-node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha --dir test/coverage --root src --include-all-sources true -- --compilers js:babel-core/register -i test/*.test.js -w",
+    "test": "cross-env NODE_ENV=testing node_modules/.bin/nyc --reporter lcov --reporter text --report-dir test/coverage --require babel-core/register node_modules/.bin/mocha test/*.test.js && rm -rf .nyc_output",
     "coverage": "cat test/coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
     "dev": "rm -rf lib && node node_modules/babel-cli/bin/babel src -d lib -D -w"
   },
@@ -25,8 +25,8 @@
     "eslint": "^3.7.1",
     "eslint-config-airbnb-base": "^8.0.0",
     "eslint-plugin-import": "^1.16.0",
-    "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^2.3.3"
+    "mocha": "^2.3.3",
+    "nyc": "^10.0.0"
   },
   "repository": {
     "type": "git",

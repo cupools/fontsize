@@ -22,7 +22,7 @@ function set(realpath, text, result) {
 
 function sign(buffer, text) {
   const hash = crypto.createHash('sha1')
-  const content = buffer.toString('base64') + text
+  const content = buffer.toString('base64') + JSON.stringify(text)
 
   hash.update(content)
   return hash.digest('hex')

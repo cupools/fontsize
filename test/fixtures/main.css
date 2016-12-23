@@ -1,0 +1,20 @@
+.SentyBrush {
+  font-family: "SentyBrush";
+  font-size: 20px;
+}
+@font-face {
+  font-family: "SentyBrush";
+  src: url('./font/SentyBrush.ttf');
+  font-style: normal;
+  font-weight: normal;
+}
+.FZHTJT {
+  font-family: "FZHTJT";
+  font-size: 20px;
+}
+@font-face {
+  font-family: "FZHTJT";
+  src: url('./font/FZHTJT.ttf');
+  font-style: normal;
+  font-weight: normal;
+}
