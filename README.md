@@ -71,7 +71,7 @@ fontsize goes through every `@font-face` and try to find the local font declared
 
 ## Options
 
-- text: expected words that use custom webfont.
+- text: expected characters that use custom webfont.
 - resolveUrl: a function to resolve `font-face` src declaration, give the `url` parameter and return the realpath of your local font file. default to `url => path.resolve(url)`.
 
 ## Practices
@@ -107,7 +107,7 @@ module.exports = {
 
 ### Collecting text
 
-It's recommended that writing your expected words in a single file, so that you can easily get them and post to fontsize.
+It's recommended to write your expected characters in a single file, so that you can easily get them and post to fontsize.
 
 ```js
 const text = require('./content.js')
@@ -121,18 +121,41 @@ Regexp is useful when dealing with Chinese characters. It reads `content.html` a
 const text = fs.readFileSync('./content.html', 'utf8').replace(/[^u4e00-u9fa5]/g, '')
 ```
 
-If your words are seperated in multiple files, maybe you need [glob][] to deal with the terrible mess.
+If your characters are seperated in multiple files, maybe you need [glob][] to deal with the terrible mess.
 
 ```js
 const files = glob.sync('app/components/*/*.js')
 const text = files.reduce((ret, file) => ret + fs.readFileSync(file, 'utf8'), '')
 ```
 
-Just take it easy to manage your words.
+Just take it easy to manage your characters.
 
 ### More than one font
 
 By default when found more that one font in the stylesheet, fontsize will minify each font with the same text that you give. If you want to handle each font with difference text, just give text as an object with the key the same as font's filename.
+
+```css
+.SentyBrush {
+  font-family: "SentyBrush";
+  font-size: 20px;
+}
+@font-face {
+  font-family: "SentyBrush";
+  src: url('./font/SentyBrush.ttf');
+  font-style: normal;
+  font-weight: normal;
+}
+.FZHTJT {
+  font-family: "FZHTJT";
+  font-size: 20px;
+}
+@font-face {
+  font-family: "FZHTJT";
+  src: url('./font/FZHTJT.ttf');
+  font-style: normal;
+  font-weight: normal;
+}
+```
 
 ```js
 const content = fs.readFileSync('test/fixtures/main.css')
