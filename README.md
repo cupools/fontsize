@@ -92,7 +92,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.styl$/,
-      loaders: /styl!css!postcss!styl/
+      loaders: /style!css!postcss!styl/
     }]
   },
   postcss: {
