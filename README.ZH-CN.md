@@ -1,21 +1,10 @@
 ## fontsize
 
-Postcss plugin that minify font file and inline as base64 in stylesheet.
+Postcss 插件，压缩字体文件并以 base64 的形式内联在样式里面。
 
-[中文文档][]
+## 使用
 
-## Todo
-
-- [x] base64
-- [x] ttf supports
-- [ ] woff supports
-- [ ] friendly configuration
-- [x] <s>inject font-face</s>
-- [ ] <s>webpack loader</s>
-
-## Getting Started
-
-fontsize goes through every `@font-face` and try to find the local font declared by `src: url('font.ttf')`, then minifies the font and replace the url with base64. The characters that are not appeared in `text` will be ignore and thus the filesize of font can be greatly cut down.
+fontsize 遍历所有 `@font-face` 节点并尝试在本地读取 `src: url('font.ttf')` 所指定的文件，然后压缩字体并替换 url 为 base64 的形式。fontsize 只保留出现在 `text` 配置项中的字符，因此字体文件的体积能够被极大地减小。
 
 ```bash
 $ npm i -D cupools/fontsize
@@ -71,16 +60,16 @@ fontsize.process(content, opts)
 
 ![example](docs/example.png)
 
-## Options
+## 配置
 
-- text: expected characters that use custom webfont.
-- resolveUrl: a function to resolve `font-face` src declaration, give the `url` parameter and return the realpath of your local font file. default to `url => path.resolve(url)`.
+- text: 希望使用自定义字体的文本
+- resolveUrl: 用来处理 `font-face` 中声明的 `src` 的函数，接受一个 `url` 并返回本地字体文件的绝对路径。默认为 `url => path.resolve(url)`.
 
-## Practices
+## 实践
 
 ### Webpack
 
-With [postcss-loader][], fontsize is avaliable in Webpack.
+通过 [postcss-loader][], fontsize 可以在 Webpack 中使用
 
 ```js
 // webpack.config.base.js
@@ -107,9 +96,9 @@ module.exports = {
 }
 ```
 
-### Collecting text
+### 收集文本
 
-It's recommended to write your expected characters in a single file, so that you can easily get them and post to fontsize.
+推荐把所有需要使用自定义字体的字符放在一个文件里面，这样可以简单地读取这些文本并提供给 fontsize 进行压缩
 
 ```js
 const text = require('./content.js')
@@ -117,24 +106,24 @@ const text = require('./content.js')
 const text = fs.readFileSync('./content.txt', 'utf8')
 ```
 
-Regexp is useful when dealing with Chinese characters. It reads `content.html` as a string and remove all non-Chinese characters.
+正则表达式在处理中文字符的时候能带来很大的便利。以下示例读取 `content.html` 文件作为字符串，并移除所有非中文字符
 
 ```js
 const text = fs.readFileSync('./content.html', 'utf8').replace(/[^\u4e00-\u9fa5]/g, '')
 ```
 
-If your characters are seperated in multiple files, maybe you need [glob][] to deal with the terrible mess.
+如果你的字符分散在多个文件里面，也许你可以通过 [glob][] 来简化收集文本的步骤。
 
 ```js
 const files = glob.sync('app/components/*/*.js')
 const text = files.reduce((ret, file) => ret + fs.readFileSync(file, 'utf8'), '')
 ```
 
-Just take it easy to manage your characters.
+尽可能方便地管理你需要使用自定义字体的字符就是了。
 
-### More than one font
+### 使用多个字体
 
-By default when found more that one font in the stylesheet, fontsize will minify each font with the same text that you give. If you want to handle each font with difference text, just give text as an object with the key the same as font's filename.
+默认情况下，当在样式中找到多个本地字体的时候，fontsize 会使用相同的 text 配置去压缩每个字体。如果不同的字体需要对应不同的字符集，可以提供 text 作为一个对象，同时提供字体的文件名和字符集。
 
 ```css
 .SentyBrush {
@@ -175,8 +164,6 @@ fontsize.process(content, { text })
 $ npm i && npm test
 ```
 
-
 [postcss-loader]: https://github.com/postcss/postcss-loader
 [glob]: https://github.com/isaacs/node-glob
-[中文文档]: README.ZH-CN.md
 
