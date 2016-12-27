@@ -12,5 +12,11 @@ export default {
         ? { __default: val }
         : val
     }
+  },
+  inline: {
+    default: false,
+    coerce(val) {
+      return !!val
+    }
   }
 }

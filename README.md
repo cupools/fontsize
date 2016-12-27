@@ -8,6 +8,7 @@ Postcss plugin that minify font file and inline as base64 in stylesheet.
 
 - [x] base64
 - [x] ttf supports
+- [ ] extract minified ttf
 - [ ] woff supports
 - [ ] friendly configuration
 - [x] <s>inject font-face</s>

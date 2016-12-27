@@ -13,7 +13,7 @@ import lint from './lint'
  * @return {Root}
  */
 async function fontsize(opts = {}, root) {
-  const { resolveUrl, text } = proof(opts, lint)
+  const { resolveUrl, text, inline } = proof(opts, lint)
 
   let storage = []
   root.walkAtRules(/font-face/, walkAtRule.bind(null, storage))
@@ -28,19 +28,21 @@ async function fontsize(opts = {}, root) {
     .map(supply)
     .filter(item => item.text && fs.existsSync(item.realpath))
 
-  await Promise.all(targets.map(process))
+  await Promise.all(targets.map(process.bind(null, inline)))
 
   return root
 }
 
-async function process(item) {
-  const { realpath, decl, text } = item
+async function process(inline, item) {
+  const { realpath, name, decl, text } = item
   const result = await minify(realpath, text)
+  const output = inline && path.join(__dirname, '../.extra', name)
 
-  decl.value = decl.value.replace(
-    /url\(["']?([\w\W]+?)["']?\)/,
-    'url(\'data:application/x-font-ttf;charset=utf-8;base64,' + result + '\')'
-  )
+  const src = inline
+    ? 'url(\'data:application/x-font-ttf;charset=utf-8;base64,' + result + '\')'
+    : 'url(\'' + output + '\')'
+
+  decl.value = decl.value.replace(/url\(["']?([\w\W]+?)["']?\)/, src)
 }
 
 /**
