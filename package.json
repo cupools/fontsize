@@ -4,7 +4,7 @@
   "description": "minify font and inline in stylesheet",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=testing node_modules/.bin/nyc --reporter lcov --reporter text --report-dir test/coverage --require babel-core/register node_modules/.bin/mocha test/*.test.js && rm -rf .nyc_output",
+    "test": "cross-env NODE_ENV=testing node_modules/.bin/nyc --reporter lcov --reporter text --report-dir test/coverage --require babel-core/register node_modules/.bin/mocha test/*.test.js -w && rm -rf .nyc_output",
     "coverage": "cat test/coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
     "dev": "rm -rf lib && node node_modules/babel-cli/bin/babel src -d lib -D -w"
   },
@@ -49,6 +49,7 @@
   "dependencies": {
     "babel-runtime": "^6.20.0",
     "fontmin": "^0.9.6",
+    "mkdirp": "^0.5.1",
     "postcss": "^5.2.6",
     "proof": "github:cupools/proof"
   }

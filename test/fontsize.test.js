@@ -72,4 +72,16 @@ describe('fontsize', function () {
 
     return fontsize(opts)(root).should.be.fulfilled
   })
+
+  it('should work with extract ttf ', () => {
+    const content = fs.readFileSync('test/fixtures/ttf.css', 'utf8')
+    const root = postcss.parse(content)
+    const opts = {
+      resolveUrl: url => path.join(__dirname, 'fixtures', url),
+      text: 'hello world',
+      inline: false
+    }
+
+    return fontsize(opts)(root).should.be.fulfilled
+  })
 })

@@ -14,9 +14,13 @@ export default {
     }
   },
   inline: {
-    default: false,
+    default: true,
     coerce(val) {
       return !!val
     }
+  },
+  outputDir: {
+    typeOf: 'string',
+    default: path.join(__dirname, '../.extra')
   }
 }

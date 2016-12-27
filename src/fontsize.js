@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import Fontmin from 'fontmin'
+import mkdirp from 'mkdirp'
 import proof from 'proof'
 
 import cache from './cache'
@@ -13,7 +14,8 @@ import lint from './lint'
  * @return {Root}
  */
 async function fontsize(opts = {}, root) {
-  const { resolveUrl, text, inline } = proof(opts, lint)
+  const options = proof(opts, lint)
+  const { resolveUrl, text } = options
 
   let storage = []
   root.walkAtRules(/font-face/, walkAtRule.bind(null, storage))
@@ -28,19 +30,29 @@ async function fontsize(opts = {}, root) {
     .map(supply)
     .filter(item => item.text && fs.existsSync(item.realpath))
 
-  await Promise.all(targets.map(process.bind(null, inline)))
+  await Promise.all(targets.map(process.bind(null, options)))
 
   return root
 }
 
-async function process(inline, item) {
-  const { realpath, name, decl, text } = item
+/**
+ * Dealing with each decl node
+ * @param  {Boolean} inline
+ * @param  {Object} item
+ */
+async function process({ inline, outputDir }, item) {
+  const { realpath, name, decl, text, url } = item
   const result = await minify(realpath, text)
-  const output = inline && path.join(__dirname, '../.extra', name)
+  const output = !inline && path.join(outputDir, name + '.min.ttf')
 
   const src = inline
-    ? 'url(\'data:application/x-font-ttf;charset=utf-8;base64,' + result + '\')'
-    : 'url(\'' + output + '\')'
+    ? 'url(\'data:application/x-font-ttf;charset=utf-8;base64,' + result.toString('base64') + '\')'
+    : 'url(\'' + path.join(url, path.relative(realpath, output)) + '\')'
+
+  if (!inline) {
+    mkdirp.sync(outputDir)
+    fs.writeFileSync(output, result)
+  }
 
   decl.value = decl.value.replace(/url\(["']?([\w\W]+?)["']?\)/, src)
 }
@@ -72,7 +84,7 @@ function minify(realpath, text) {
           reject(error)
         }
 
-        const result = files[0].contents.toString('base64')
+        const result = files[0].contents
         cache.set(realpath, text, result)
         resolve(result)
       })
