@@ -74,8 +74,9 @@ fontsize.process(content, opts)
 
 ## Options
 
-- text: expected characters that use custom webfont.
-- resolveUrl: a function to resolve `font-face` src declaration, give the `url` parameter and return the realpath of your local font file. default to `url => path.resolve(url)`.
+- text: Expected characters that use custom webfont.
+- resolveUrl: Function to resolve `font-face` src declaration, give the `url` parameter and return the realpath of your local font file. Default to `url => path.resolve(url)`.
+- inline: To inline font in stylesheet as base64 or not. If set to false, fontsize will extract a minified font file and replace the url with relative path. Default to true.
 
 ## Practices
 
@@ -168,6 +169,17 @@ const text = {
 }
 
 fontsize.process(content, { text })
+```
+
+### Extract minified font
+When we get a fat font after minified, it's a good idea to extract the base64 font from the stylesheet.
+
+```js
+const content = fs.readFileSync('test/fixtures/ttf.css')
+const text = 'hello world'
+const resolveUrl = url => path.resolve('test/fixtures', url),
+
+fontsize.process(content, { text, resolveUrl, inline: false })
 ```
 
 ## Test
