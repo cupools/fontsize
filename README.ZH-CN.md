@@ -1,5 +1,7 @@
 ## fontsize
 
+[![Build Status](https://travis-ci.org/cupools/fontsize.svg?branch=master)](https://travis-ci.org/cupools/fontsize) [![Coverage Status](https://coveralls.io/repos/github/cupools/fontsize/badge.svg?branch=master)](https://coveralls.io/github/cupools/fontsize?branch=master)
+
 Postcss 插件，压缩字体文件并以 base64 的形式内联在样式里面。
 
 ## 使用

@@ -1,5 +1,7 @@
 ## fontsize
 
+[![Build Status](https://travis-ci.org/cupools/fontsize.svg?branch=master)](https://travis-ci.org/cupools/fontsize) [![Coverage Status](https://coveralls.io/repos/github/cupools/fontsize/badge.svg?branch=master)](https://coveralls.io/github/cupools/fontsize?branch=master)
+
 Postcss plugin that minify font file and inline as base64 in stylesheet.
 
 [中文文档][]
