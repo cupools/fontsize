@@ -4,16 +4,6 @@ Postcss plugin that minify font file and inline as base64 in stylesheet.
 
 [中文文档][]
 
-## Todo
-
-- [x] base64
-- [x] ttf supports
-- [x] extract minified ttf
-- [ ] woff supports
-- [ ] friendly configuration
-- [x] <s>inject font-face</s>
-- [ ] <s>webpack loader</s>
-
 ## Getting Started
 
 fontsize goes through every `@font-face` and try to find the local font declared by `src: url('font.ttf')`, then minifies the font and replace the url with base64. The characters that are not appeared in `text` will be ignore and thus the filesize of font can be greatly cut down.

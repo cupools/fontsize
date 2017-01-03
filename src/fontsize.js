@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import Fontmin from 'fontmin'
 import mkdirp from 'mkdirp'
-import proof from 'proof'
+import checkin from 'checkin'
 
 import cache from './cache'
 import lint from './lint'
@@ -14,7 +14,7 @@ import lint from './lint'
  * @return {Root}
  */
 async function fontsize(opts = {}, root) {
-  const options = proof(opts, lint)
+  const options = checkin(opts, lint)
   const { resolveUrl, text } = options
 
   let storage = []

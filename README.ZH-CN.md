@@ -63,7 +63,8 @@ fontsize.process(content, opts)
 ## 配置
 
 - text: 希望使用自定义字体的文本
-- resolveUrl: 用来处理 `font-face` 中声明的 `src` 的函数，接受一个 `url` 并返回本地字体文件的绝对路径。默认为 `url => path.resolve(url)`.
+- resolveUrl: 用来处理 `font-face` 中声明的 `src` 的函数，接受一个 `url` 并返回本地字体文件的绝对路径。默认为 `url => path.resolve(url)`
+- inline: 是否把字体文件以 base64 的形式内联在 CSS 文件中。如果配置为 false, fontsize 将会导出一个压缩过的字体文件并且替换 CSS 文件中字体链接的相对路径。默认为 true
 
 ## 实践
 
@@ -156,6 +157,17 @@ const text = {
 }
 
 fontsize.process(content, { text })
+```
+
+### 导出压缩后的字体文件
+当我们有大篇幅的文本使用自定义字体，并且压缩过后字体文件的体积仍然很大时，不推荐把字体文件内联在 CSS 文件中。
+
+```js
+const content = fs.readFileSync('test/fixtures/ttf.css')
+const text = 'hello world'
+const resolveUrl = url => path.resolve('test/fixtures', url),
+
+fontsize.process(content, { text, resolveUrl, inline: false })
 ```
 
 ## Test
