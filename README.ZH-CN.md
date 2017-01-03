@@ -9,7 +9,7 @@ Postcss 插件，压缩字体文件并以 base64 的形式内联在样式里面�
 fontsize 遍历所有 `@font-face` 节点并尝试在本地读取 `src: url('font.ttf')` 所指定的文件，然后压缩字体并替换 url 为 base64 的形式。fontsize 只保留出现在 `text` 配置项中的字符，因此字体文件的体积能够被极大地减小。
 
 ```bash
-$ npm i -D cupools/fontsize
+$ npm i -D fontsize
 ```
 
 ```js

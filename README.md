@@ -11,7 +11,7 @@ Postcss plugin that minify font file and inline as base64 in stylesheet.
 fontsize goes through every `@font-face` and try to find the local font declared by `src: url('font.ttf')`, then minifies the font and replace the url with base64. The characters that are not appeared in `text` will be ignore and thus the filesize of font can be greatly cut down.
 
 ```bash
-$ npm i -D cupools/fontsize
+$ npm i -D fontsize
 ```
 
 ```js
