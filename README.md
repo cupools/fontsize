@@ -69,6 +69,7 @@ fontsize.process(content, opts)
 - text: Expected characters that use custom webfont.
 - resolveUrl: Function to resolve `font-face` src declaration, give the `url` parameter and return the realpath of your local font file. Default to `url => path.resolve(url)`.
 - inline: To inline font in stylesheet as base64 or not. If set to false, fontsize will extract a minified font file and replace the url with relative path. Default to true.
+- disabled: Disable the plugin. default to false.
 
 ## Practices
 

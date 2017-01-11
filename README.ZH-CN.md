@@ -67,6 +67,7 @@ fontsize.process(content, opts)
 - text: 希望使用自定义字体的文本
 - resolveUrl: 用来处理 `font-face` 中声明的 `src` 的函数，接受一个 `url` 并返回本地字体文件的绝对路径。默认为 `url => path.resolve(url)`
 - inline: 是否把字体文件以 base64 的形式内联在 CSS 文件中。如果配置为 false, fontsize 将会导出一个压缩过的字体文件并且替换 CSS 文件中字体链接的相对路径。默认为 true
+- disabled: 禁用插件。默认为 false
 
 ## 实践
 
