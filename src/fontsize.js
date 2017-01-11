@@ -15,7 +15,11 @@ import lint from './lint'
  */
 async function fontsize(opts = {}, root) {
   const options = checkin(opts, lint)
-  const { resolveUrl, text } = options
+  const { resolveUrl, text, disabled } = options
+
+  if (disabled) {
+    return root
+  }
 
   let storage = []
   root.walkAtRules(/font-face/, walkAtRule.bind(null, storage))

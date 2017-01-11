@@ -22,5 +22,11 @@ export default {
   outputDir: {
     typeOf: 'string',
     default: path.join(__dirname, '../.extra')
+  },
+  disabled: {
+    default: false,
+    coerce(val) {
+      return !!val
+    }
   }
 }

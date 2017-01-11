@@ -36,4 +36,8 @@ describe('index', function () {
   it('should work with expose function', () => (
     postcssFontsize.process(content, opts).should.be.fulfilled
   ))
+
+  it('should be disabled', () => (
+    postcssFontsize.process(content, { ...opts, disabled: true }).should.be.fulfilled
+  ))
 })
